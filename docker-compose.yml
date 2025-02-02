@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./catalog-list-server
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./catalog-list-server:/app
+    environment:
+      - NODE_ENV=development
+    networks:
+      - react-network
+
+  frontend:
+    build:
+      context: ./catalog-list-client
+      # context: .
+      # dockerfile: ./catalog-list-client/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./catalog-list-client:/app
+    networks:
+      - react-network
+    environment:
+      - NODE_ENV=production
+    # volumes:
+    #   - ./src:/app/src  # Optional: for live reloading during development
+    #   - /app/node_modules  # Prevents node_modules from being overwritten
+
+networks:
+  react-network:
+    driver: bridge
